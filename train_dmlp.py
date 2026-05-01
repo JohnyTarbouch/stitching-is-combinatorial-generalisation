@@ -4,6 +4,7 @@ import random
 import minari
 import numpy as np
 import gymnasium as gym
+import gymnasium_robotics
 from pathlib import Path
 from datetime import datetime
 from omegaconf import DictConfig
@@ -14,6 +15,8 @@ from torch.utils.data import DataLoader
 
 from model import DecisionMLP
 from utils import MinariEpisodicDataset, convert_remote_to_local, get_test_start_state_goals, get_lr, AntmazeWrapper 
+
+gym.register_envs(gymnasium_robotics)
 
 def set_seed(seed):
     random.seed(seed)

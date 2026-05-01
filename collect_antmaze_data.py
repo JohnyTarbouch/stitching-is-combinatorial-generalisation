@@ -4,8 +4,11 @@ import torch
 import pickle
 import numpy as np
 import gymnasium as gym
+import gymnasium_robotics
 from stable_baselines3 import SAC
 from utils import get_maze_map, AntmazeWrapper
+
+gym.register_envs(gymnasium_robotics)
 
 '''
 Code taken from https://github.com/rodrigodelazcano/d4rl-minari-dataset-generation/blob/main/scripts/antmaze/create_antmaze_dataset.py
@@ -428,7 +431,7 @@ if __name__ == "__main__":
     dataset_name = sys.argv[1]
 
     seed = sys.argv[2]
-    num_data = int(1e6)
+    num_data = int(sys.argv[3]) if len(sys.argv) > 3 else int(1e6)
 
     np.random.seed(int(seed))
     collect_dataset(dataset_name, num_data)

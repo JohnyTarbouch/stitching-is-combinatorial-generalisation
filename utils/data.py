@@ -4,11 +4,14 @@ import pickle
 import minari
 import numpy as np
 import gymnasium as gym
+import gymnasium_robotics
 from datetime import datetime
 from sklearn.cluster import KMeans
 
 from collections import defaultdict
 from torch.utils.data import Dataset
+
+gym.register_envs(gymnasium_robotics)
 
 def convert_remote_to_local(dataset_name, env):
 

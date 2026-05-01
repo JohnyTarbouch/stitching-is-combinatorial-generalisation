@@ -33,3 +33,6 @@ notebooks/
 
 #mujoco
 MUJOCO_LOG.TXT
+
+# Runs
+repro_runs/

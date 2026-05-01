@@ -2,7 +2,10 @@ import os
 import pickle
 import numpy as np
 import gymnasium as gym
+import gymnasium_robotics
 from utils import get_maze_map
+
+gym.register_envs(gymnasium_robotics)
 
 UP = 0
 DOWN = 1
