@@ -115,8 +115,27 @@ def extract_done_markers(dones, episode_ids):
     (ends,) = np.where(dones)
     return ends[ episode_ids[ : ends[-1] + 1 ] ], np.where(1 - dones[: ends[-1] + 1])[0]
 
+def get_augmentation_cluster_inputs(observations, achieved_goals, augment_cluster_space):
+    if augment_cluster_space == "state":
+        return observations
+    if augment_cluster_space == "goal":
+        return achieved_goals
+    raise ValueError(
+        "augment_cluster_space must be either 'state' or 'goal', "
+        f"got {augment_cluster_space!r}"
+    )
+
 class MinariEpisodicTrajectoryDataset(Dataset):
-    def __init__(self, dataset_name, remote_data, context_len, augment_data, augment_prob, nclusters=40):
+    def __init__(
+            self,
+            dataset_name,
+            remote_data,
+            context_len,
+            augment_data,
+            augment_prob,
+            nclusters=40,
+            augment_cluster_space="state",
+            ):
         super().__init__()
         if remote_data:
             path = 'data/'+dataset_name+'-remote.pkl'
@@ -145,7 +164,13 @@ class MinariEpisodicTrajectoryDataset(Dataset):
         if augment_data:    
             start_time = datetime.now().replace(microsecond=0)
             print('starting kmeans ... ')
-            kmeans = KMeans(n_clusters=nclusters, n_init="auto").fit(self.achieved_goals)
+            print('augmentation cluster space:', augment_cluster_space)
+            cluster_inputs = get_augmentation_cluster_inputs(
+                self.observations,
+                self.achieved_goals,
+                augment_cluster_space,
+            )
+            kmeans = KMeans(n_clusters=nclusters, n_init="auto").fit(cluster_inputs)
             time_elapsed = str(datetime.now().replace(microsecond=0) - start_time)
             print('kmeans done! time taken :', time_elapsed)
 
@@ -207,7 +232,15 @@ class MinariEpisodicTrajectoryDataset(Dataset):
         return state, goal, action
 
 class MinariEpisodicDataset(Dataset):
-    def __init__(self, dataset_name, remote_data, augment_data, augment_prob, nclusters=40):
+    def __init__(
+            self,
+            dataset_name,
+            remote_data,
+            augment_data,
+            augment_prob,
+            nclusters=40,
+            augment_cluster_space="state",
+            ):
         super().__init__()
         if remote_data:
             path = 'data/'+dataset_name+'-remote.pkl'
@@ -232,7 +265,13 @@ class MinariEpisodicDataset(Dataset):
         if augment_data:    
             start_time = datetime.now().replace(microsecond=0)
             print('starting kmeans ... ')
-            kmeans = KMeans(n_clusters=nclusters, n_init="auto").fit(self.observations)
+            print('augmentation cluster space:', augment_cluster_space)
+            cluster_inputs = get_augmentation_cluster_inputs(
+                self.observations,
+                self.achieved_goals,
+                augment_cluster_space,
+            )
+            kmeans = KMeans(n_clusters=nclusters, n_init="auto").fit(cluster_inputs)
             time_elapsed = str(datetime.now().replace(microsecond=0) - start_time)
             print('kmeans done! time taken :', time_elapsed)
 

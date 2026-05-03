@@ -135,7 +135,14 @@ def train(cfg, hydra_cfg):
     if cfg.remote_data:
         convert_remote_to_local(cfg.dataset_name, env)
    
-    train_dataset = MinariEpisodicDataset(cfg.dataset_name, cfg.remote_data, cfg.augment_data, cfg.augment_prob, cfg.nclusters)
+    train_dataset = MinariEpisodicDataset(
+        cfg.dataset_name,
+        cfg.remote_data,
+        cfg.augment_data,
+        cfg.augment_prob,
+        cfg.nclusters,
+        cfg.augment_cluster_space,
+    )
     
     train_data_loader = DataLoader(
                             train_dataset,

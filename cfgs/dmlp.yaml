@@ -19,6 +19,7 @@ max_train_iters: 25         #25 x 40000 -> 1000000 transition batches
 
 augment_data: False
 augment_prob: 0
+augment_cluster_space: state
 nclusters: 
 batch_size: 256
 lr: 1e-3

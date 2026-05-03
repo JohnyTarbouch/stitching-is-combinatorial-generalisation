@@ -19,6 +19,7 @@ max_train_iters: 25         #25 x 8000 x 5-> 1000000 transition batches
 
 augment_data: False
 augment_prob: 0
+augment_cluster_space: state
 nclusters: 
 warmup_steps: 1000
 drop_p: 0.1

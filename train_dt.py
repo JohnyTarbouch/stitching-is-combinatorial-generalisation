@@ -159,7 +159,15 @@ def train(cfg, hydra_cfg):
 
     print(cfg.nclusters)
 
-    train_dataset = MinariEpisodicTrajectoryDataset(cfg.dataset_name, cfg.remote_data, cfg.context_len, cfg.augment_data, cfg.augment_prob, cfg.nclusters)  
+    train_dataset = MinariEpisodicTrajectoryDataset(
+        cfg.dataset_name,
+        cfg.remote_data,
+        cfg.context_len,
+        cfg.augment_data,
+        cfg.augment_prob,
+        cfg.nclusters,
+        cfg.augment_cluster_space,
+    )  
     
     train_data_loader = DataLoader(
                             train_dataset,
