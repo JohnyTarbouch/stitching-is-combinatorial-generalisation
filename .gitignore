@@ -35,4 +35,5 @@ notebooks/
 MUJOCO_LOG.TXT
 
 # Runs
+!repro_runs/antmaze_umaze_six_methods_20260502_040434/plots/dmlp_reproduction_final_avg_reward.png
 repro_runs/
