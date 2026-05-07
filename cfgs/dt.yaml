@@ -21,7 +21,7 @@ augment_data: False
 augment_prob: 0
 augment_cluster_space: state
 nclusters: 
-warmup_steps: 1000
+warmup_steps: 5000
 drop_p: 0.1
 batch_size: 256
 lr: 1e-3
